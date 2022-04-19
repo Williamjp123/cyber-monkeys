@@ -1,6 +1,7 @@
 import socket
 import hashlib
 from getmac import get_mac_address as gma       # Gets MAC address.
+import pyodbc
 
 
 # Returns IP address.
@@ -35,3 +36,15 @@ fingerprint = ipString + macString
 finalFingerprint = hashlib.sha256(fingerprint.encode())
 print(finalFingerprint)
 print(finalFingerprint.hexdigest())
+
+# Pushes data to logging DB. (WIP)
+conn = pyodbc.connect('Driver={SQL Server};'
+                      'Server=MSI;'
+                      'Database=logs;'
+                      'Trusted_Connection=yes;')
+
+cursor = conn.cursor()
+cursor.execute('SELECT * FROM Devices')
+
+for i in cursor:
+    print(i)
