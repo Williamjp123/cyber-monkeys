@@ -31,20 +31,19 @@ macResult = hashlib.sha256(macString.encode())
 print(macResult)
 print(macResult.hexdigest())
 
-# Creates SHA256 fingerprint from IP address and MAC address. (Can implement serial # after DB creation.)
-fingerprint = ipString + macString
-finalFingerprint = hashlib.sha256(fingerprint.encode())
-print(finalFingerprint)
-print(finalFingerprint.hexdigest())
+# Creates SHA256 fingerprint from IP address and MAC address.
+concat = ipString + macString
+fingerprint = hashlib.sha256(concat.encode())
+print(fingerprint)
+readableFingerprint = fingerprint.hexdigest()
+print(readableFingerprint)
 
-# Pushes data to logging DB. (WIP)
+# Pushes data to logging DB.
 conn = pyodbc.connect('Driver={SQL Server};'
                       'Server=MSI;'
                       'Database=logs;'
                       'Trusted_Connection=yes;')
 
 cursor = conn.cursor()
-cursor.execute('SELECT * FROM Devices')
-
-for i in cursor:
-    print(i)
+cursor.execute('INSERT INTO Devices VALUES (?, ?)', (readableFingerprint, gma()))
+conn.commit()
