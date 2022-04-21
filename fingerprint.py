@@ -2,7 +2,27 @@ import socket
 import hashlib
 from getmac import get_mac_address as gma       # Gets MAC address.
 import pyodbc
+import sys
+import os
 
+
+# Grabs a device's motherboard serial number. Works with Windows & Linux distributions. 
+def getMachine_addr():
+    global command
+    os_type = sys.platform.lower()
+    if "win" in os_type:
+        command = "wmic bios get serialnumber"
+    elif "linux" in os_type:
+        command = "hal-get-property --udi /org/freedesktop/Hal/devices/computer --key system.hardware.uuid"
+    elif "darwin" in os_type:
+        command = "ioreg -l | grep IOPlatformSerialNumber"
+    return os.popen(command).read().replace("\n","").replace("	","").replace(" ","")
+
+
+# Outputs the serial number in a readable format.
+serial = getMachine_addr()
+serialNo = serial.replace("SerialNumber", "")
+print(serialNo)
 
 # Returns IP address.
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -19,20 +39,11 @@ finally:
 print(IP)
 print(gma())        # Gets MAC Address.
 
-# IP address to SHA256.
-ipString = (IP.replace('.', ''))
-ipResult = hashlib.sha256(ipString.encode())
-print(ipResult)
-print(ipResult.hexdigest())
-
-# MAC address to SHA256.
+# Makes MAC readable.
 macString = (gma().replace(':', ''))
-macResult = hashlib.sha256(macString.encode())
-print(macResult)
-print(macResult.hexdigest())
 
-# Creates SHA256 fingerprint from IP address and MAC address.
-concat = ipString + macString
+# Creates SHA256 fingerprint from Serial Number and MAC address.
+concat = serialNo + macString
 fingerprint = hashlib.sha256(concat.encode())
 print(fingerprint)
 readableFingerprint = fingerprint.hexdigest()
@@ -40,10 +51,12 @@ print(readableFingerprint)
 
 # Pushes data to logging DB.
 conn = pyodbc.connect('Driver={SQL Server};'
-                      'Server=MSI;'
+                      'Server=ip\servername\device,port1433;'
+                      'UID=SecLogAdmin'
+                      'PWD=abc123'
                       'Database=logs;'
                       'Trusted_Connection=yes;')
 
 cursor = conn.cursor()
-cursor.execute('INSERT INTO Devices VALUES (?, ?)', (readableFingerprint, gma()))
+cursor.execute('INSERT INTO Devices VALUES (?, ?, ?)', (readableFingerprint, gma(), serialNo))
 conn.commit()
