@@ -1,12 +1,13 @@
 import socket
 import hashlib
-from getmac import get_mac_address as gma       # Gets MAC address.
+from getmac import get_mac_address as gma  # Gets MAC address.
 import pyodbc
 import sys
 import os
+import time
 
 
-# Grabs a device's motherboard serial number. Works with Windows & Linux distributions. 
+# Grabs a device's motherboard serial number. Works with Windows & Linux distributions.
 def getMachine_addr():
     global command
     os_type = sys.platform.lower()
@@ -16,7 +17,7 @@ def getMachine_addr():
         command = "hal-get-property --udi /org/freedesktop/Hal/devices/computer --key system.hardware.uuid"
     elif "darwin" in os_type:
         command = "ioreg -l | grep IOPlatformSerialNumber"
-    return os.popen(command).read().replace("\n","").replace("	","").replace(" ","")
+    return os.popen(command).read().replace("\n", "").replace("	", "").replace(" ", "")
 
 
 # Outputs the serial number in a readable format.
@@ -37,7 +38,7 @@ finally:
     s.close()
 
 print(IP)
-print(gma())        # Gets MAC Address.
+print(gma())  # Gets MAC Address.
 
 # Makes MAC readable.
 macString = (gma().replace(':', ''))
@@ -49,14 +50,26 @@ print(fingerprint)
 readableFingerprint = fingerprint.hexdigest()
 print(readableFingerprint)
 
-# Pushes data to logging DB.
-conn = pyodbc.connect('Driver={SQL Server};'
-                      'Server=ip\servername\device,port1433;'
-                      'UID=SecLogAdmin'
-                      'PWD=abc123'
-                      'Database=logs;'
-                      'Trusted_Connection=yes;')
 
-cursor = conn.cursor()
-cursor.execute('INSERT INTO Devices VALUES (?, ?, ?)', (readableFingerprint, gma(), serialNo))
-conn.commit()
+# Pushes data to logging DB.
+while True:
+    conn = pyodbc.connect('Driver={SQL Server};'
+                          'Server=10.20.122.19;'
+                          'UID=SecLogAdmin;'
+                          'PWD=abc123;'
+                          'Database=logs;')
+
+    cursor = conn.cursor()
+    cursor.execute('INSERT INTO Devices VALUES (?, ?)', (readableFingerprint, gma()))
+    conn.commit()
+    cursor.execute("SELECT * FROM Devices FOR JSON AUTO")
+
+    # Outputs JSON object.
+    for row in cursor:
+        print(row)
+
+        f = open("devices.json", "a")
+        f.write(row[0])
+        f.close()
+
+    time.sleep(60)      # Script runs every 60 seconds.
