@@ -1,0 +1,47 @@
+.usaHealthLogo {
+  width: 300px;
+    }
+    
+    .header {
+      background-color: white;
+      padding-left: 20%;
+      padding-right: 20%;
+    }
+    
+    .headerSearchBar {
+      border-radius: 20px;
+      flex-grow: 1;
+      justify-content: center;
+      /*padding-left: 15px;*/
+      /*padding-right: 40px;*/
+    }
+    
+    .headerSearchBtn {
+      background-color: #062157;
+      border-color: #062157;
+      border-radius: 20px;
+    }
+    
+    .headerSearchBtn:hover {
+      background-color: #062157;
+    }
+    
+    .headerSearchForm {
+      flex: 1;
+      flex-direction: column;
+      width: 100%;
+      justify-content: center;
+    }
+    
+    .searchIcon {
+      width: 20px;
+      z-index: 99 !important;
+    }
+    
+    .content{
+    text-align: -webkit-center;
+      }
+    
+      .title-head {
+        padding-top: 3vh;
+      }
