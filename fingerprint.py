@@ -45,20 +45,22 @@ print(fingerprint)
 readableFingerprint = fingerprint.hexdigest()
 print(readableFingerprint)
 
+
 json_str = sp.check_output("tshark -i Ethernet -c 2 -T json".split(' ')).decode('utf-8')
 tshark_pkts = json.loads(json_str)
 # Transform tshark json into a scapy-like packet-json list.
 pkts_json = [pkt['_source']['layers'] for pkt in tshark_pkts]
 pprint.pprint(pkts_json[0]['eth'])
-
+with open("macAddressJSON.json", "w") as o:
+    pprint.pprint(pkts_json[0]['eth'], o)
 
 
 #               Does what we want, however it isn't in true json format
-
-#cap = pyshark.LiveCapture(use_json=True, custom_parameters={'-N': 'm'})
-#for packet in cap.sniff_continuously(packet_count=1):
-#    print(packet)
-
+"""
+cap = pyshark.LiveCapture(use_json=True, custom_parameters={'-N': 'm'})
+for packet in cap.sniff_continuously(packet_count=1):
+    print(packet)
+"""
 
 """                         Works, but not quite. It just spits out mac addresses rapid fire.
 def print_info_layer(cap):
