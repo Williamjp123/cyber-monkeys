@@ -1,0 +1,64 @@
+.Login {
+    background-color: #dbe3e6; 
+    text-align: center;
+}
+
+.login-container {
+    background-color: white;
+    background-position: 0% 0%;
+    background-origin: padding-box; 
+    background-repeat: no-repeat;
+    border: solid 5px #00205b;
+    border-radius: 5px;
+}
+
+
+// FIX USERNAME, PASSWORD, AND SUBMIT SCSS
+
+.username {
+    font-family: 'Sofia Pro'; 
+    font-variant: normal; 
+    font-style: normal; 
+    font-weight: normal;
+    font-size: 24px; 
+    line-height: 37px; 
+    letter-spacing: 0px; 
+    color: #00205b;
+    opacity: 1;  
+}
+
+.password {
+    font-family: 'Sofia Pro'; 
+    font-variant: normal; 
+    font-style: normal; 
+    font-weight: normal;
+    font-size: 24px; 
+    line-height: 37px; 
+    letter-spacing: 0px; 
+    color: #00205b;
+    opacity: 1;
+}
+
+.submit {
+    font-family: 'Sofia Pro'; 
+    font-variant: normal; 
+    font-style: normal; 
+    font-weight: normal;
+    font-size: 24px; 
+    line-height: 37px; 
+    letter-spacing: 0px; 
+    color: white;
+    opacity: 1;
+    text-align: center;
+}
+
+.Login p {
+    font-family: 'Sofia Pro'; 
+    font-variant: normal; 
+    font-style: normal; 
+    font-weight: normal;
+    font-size: 24px; 
+    line-height: 37px; 
+    color: #00205b; 
+    text-align: center; 
+}

@@ -1,0 +1,106 @@
+.HomePage{
+    background-color: #dbe3e6;
+    background-origin: padding-box; 
+    background-repeat: no-repeat; 
+    background-position: 0% 0%; 
+    opacity: 1;
+    display: flex;
+    flex: 1;
+}
+
+.head {
+    text-align: left;
+    font-family: 'Sofia Pro'; 
+    font-variant: normal; 
+    font-style: normal; 
+    font-weight: bold;
+    font-size: 48px; 
+    line-height: 72px; 
+    letter-spacing: 0px;
+    color: #00205B;
+    opacity: 1;
+}
+
+.head h2 {
+    color:#00205B; 
+    opacity: 1; 
+    letter-spacing: 0px; 
+    font-family: 'Sofia Pro'; 
+    font-variant: normal; 
+    font-style: normal; 
+    font-weight: bold;
+    font-size: 48px; 
+    line-height: 72px;
+}
+
+.WhiteBox {
+    background-color: #FFFFFF;
+    background-position: 0% 0%;
+    background-repeat: no-repeat;
+    background-origin: padding-box;
+    box-shadow: 0px 1px 8px #000029;
+    display: flex;
+    flex: 1;
+    opacity: 1;
+}
+
+.Search {
+    opacity: 1;
+    letter-spacing: 0px; 
+    font-family: 'Sofia Pro'; 
+    font-variant: normal; 
+    font-style: normal; 
+    font-weight: bold;
+    font-size: 24px; 
+    line-height: 37px; 
+    color: #707070; 
+    text-align: left; 
+}
+
+.form-group1 {
+    opacity: 1; 
+    letter-spacing: 0px; 
+    font-family: 'Sofia Pro'; 
+    font-variant: normal; 
+    font-style: normal; 
+    font-weight: bold; 
+    font-size: 24px; 
+    line-height: 37px;
+    color: #707070; 
+    text-align: left; 
+}
+
+.form-group2 {
+    text-align: left;
+    font-family: 'Sofia Pro'; 
+    font-variant: normal; 
+    font-style: normal; 
+    font-weight: bold;
+    font-size: 18px; 
+    line-height: 22px; 
+    letter-spacing: 0px;
+    opacity: 1; 
+}
+
+.HomePage p {
+    font-family: 'Sofia Pro'; 
+    font-variant: normal; 
+    font-style: normal; 
+    font-weight: bold;
+    font-size: 18px; 
+    line-height: 22px; 
+    letter-spacing: 0px;
+    opacity: 1; 
+}
+
+.refresh p {
+    text-align: left;
+    font-family: 'Sofia Pro';
+    font-weight: bold;
+    font-style: normal;
+    font-variant: normal;
+    font-size: 24px/37px;
+    letter-spacing: 0px;
+    color: #707070;
+    opacity: 1;
+}
