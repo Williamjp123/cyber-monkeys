@@ -6,6 +6,7 @@ import numpy as np      # For multilateration
 import math             # For multilateration (https://github.com/jurasofish/multilateration/blob/master/multilaterate.py)
 import scapy.all as scapy
 #from scapy.all import *
+import pyshark
 
 # Returns IP address.
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -41,6 +42,43 @@ print(fingerprint)
 readableFingerprint = fingerprint.hexdigest()
 print(readableFingerprint)
 
+
+
+ # Sniff from interface in real time
+cap = pyshark.LiveCapture(interface='eth0')
+cap.sniff(timeout=10)
+
+
+def get_macs(packet):
+    """Get the MAC addresses from a PyShark packet.
+    Returns (source MAC, destination MAC)
+    """
+    if "eth" in packet:
+        print(packet)
+        return (packet.eth.src, packet.eth.dst)
+        
+    elif "wlan" in packet:
+        print(packet)
+        return (packet.wlan.ta, packet.wlan.addr)
+    raise Exception("Cannot find a MAC address.")
+get_macs(cap)
+
+""" 
+cap = pyshark.LiveCapture(interface="eth0") #wlp2s0
+cap.sniff(timeout=10)
+
+def get_macs(cap):
+    if "eth" in cap:
+        print(cap)
+        return (cap.eth.src, cap.eth.dst)
+    elif "wlan" in cap:
+        print(cap)
+        return (cap.wlan.ta, cap.wlan.addr)
+    raise Exception("Cannot find a mac address.")
+
+get_macs(cap) """
+
+
 """
 # Pushes data to logging DB.
 conn = pyodbc.connect('Driver={SQL Server};'
@@ -63,8 +101,9 @@ conn.commit()
 for packet_i_sent, packet_i_received in answered_packets:
     print(packet_i_received.src)
 """
-packet = scapy.srp(scapy.Ether(dst="ff:ff:ff:ff:ff:ff"))
+"""packet = scapy.srp(scapy.Ether(dst="ff:ff:ff:ff:ff:ff"))
 print(packet[0][scapy.Ether].src)
+"""
 
 """
 # From here down, the code is about multilateration.
