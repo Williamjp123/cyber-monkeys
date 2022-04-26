@@ -5,6 +5,7 @@ import pyodbc
 import sys
 import os
 import time
+from pathlib import Path
 
 
 # Grabs a device's motherboard serial number. Works with Windows & Linux distributions.
@@ -54,21 +55,23 @@ print(readableFingerprint)
 # Pushes data to logging DB.
 while True:
     conn = pyodbc.connect('Driver={SQL Server};'
-                          'Server=10.20.122.19;'
-                          'UID=SecLogAdmin;'
-                          'PWD=abc123;'
-                          'Database=logs;')
+                          'Server=MSI;'     # Name of your SQL Server.
+                          #'UID=SecLogAdmin;'
+                          #'PWD=abc123;'
+                          'Database=logs;'  # Name of DB in server.
+                          'Trusted_Connection=yes;')    # Only used for Windows Auth. for other, use uid/pwd.
 
     cursor = conn.cursor()
-    cursor.execute('INSERT INTO Devices VALUES (?, ?)', (readableFingerprint, gma()))
+    cursor.execute('INSERT INTO Devices VALUES (?, ?, ?)', (readableFingerprint, gma(), serialNo))
     conn.commit()
-    cursor.execute("SELECT * FROM Devices FOR JSON AUTO")
+    cursor.execute("SELECT DISTINCT * FROM Devices FOR JSON AUTO")
 
     # Outputs JSON object.
     for row in cursor:
         print(row)
 
-        f = open("devices.json", "a")
+        data_folder = Path("D:/Documents/CM_UI/src/assets/")
+        f = open(data_folder / "devices.json", "w")
         f.write(row[0])
         f.close()
 
