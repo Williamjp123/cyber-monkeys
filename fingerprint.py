@@ -7,6 +7,9 @@ import math             # For multilateration (https://github.com/jurasofish/mul
 import scapy.all as scapy
 #from scapy.all import *
 import pyshark
+import json
+import subprocess as sp
+import pprint
 
 # Returns IP address.
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -42,44 +45,43 @@ print(fingerprint)
 readableFingerprint = fingerprint.hexdigest()
 print(readableFingerprint)
 
+json_str = sp.check_output("tshark -i Ethernet -c 2 -T json".split(' ')).decode('utf-8')
+tshark_pkts = json.loads(json_str)
+# Transform tshark json into a scapy-like packet-json list.
+pkts_json = [pkt['_source']['layers'] for pkt in tshark_pkts]
+pprint.pprint(pkts_json[0]['eth'])
 
 
- # Sniff from interface in real time
-cap = pyshark.LiveCapture(interface='eth0')
-cap.sniff(timeout=10)
+
+#               Does what we want, however it isn't in true json format
+
+#cap = pyshark.LiveCapture(use_json=True, custom_parameters={'-N': 'm'})
+#for packet in cap.sniff_continuously(packet_count=1):
+#    print(packet)
 
 
-def get_macs(packet):
-    """Get the MAC addresses from a PyShark packet.
-    Returns (source MAC, destination MAC)
-    """
-    if "eth" in packet:
-        print(packet)
-        return (packet.eth.src, packet.eth.dst)
-        
-    elif "wlan" in packet:
-        print(packet)
-        return (packet.wlan.ta, packet.wlan.addr)
-    raise Exception("Cannot find a MAC address.")
-get_macs(cap)
-
-""" 
-cap = pyshark.LiveCapture(interface="eth0") #wlp2s0
-cap.sniff(timeout=10)
-
-def get_macs(cap):
+"""                         Works, but not quite. It just spits out mac addresses rapid fire.
+def print_info_layer(cap):
     if "eth" in cap:
-        print(cap)
+        print(cap.eth.src)
         return (cap.eth.src, cap.eth.dst)
     elif "wlan" in cap:
-        print(cap)
+        print(cap.eth.src)
         return (cap.wlan.ta, cap.wlan.addr)
-    raise Exception("Cannot find a mac address.")
 
-get_macs(cap) """
+    #print(cap.eth.src)
+cap.apply_on_packets(print_info_layer)
 
 
+                                Debugging purposes
+cap.set_debug()
+cap.sniff(timeout=10)
+cap
+print(cap)
 """
+
+
+"""                                 Commented out because I don't have the database on my pc
 # Pushes data to logging DB.
 conn = pyodbc.connect('Driver={SQL Server};'
                       'Server=MSI;'
