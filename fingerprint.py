@@ -17,6 +17,8 @@ def getMachine_addr():
         command = "wmic bios get serialnumber"
     elif "linux" in os_type:
         command = "hal-get-property --udi /org/freedesktop/Hal/devices/computer --key system.hardware.uuid"
+    elif "darwin" in os_type:
+        command = "ioreg -l | grep IOPlatformSerialNumber"
     return os.popen(command).read().replace("\n", "").replace("	", "").replace(" ", "")
 
 
@@ -50,20 +52,26 @@ print(fingerprint)
 readableFingerprint = fingerprint.hexdigest()
 print(readableFingerprint)
 
+# Creates date & time for log entry.
+now = datetime.datetime.now()
+formatted_date = now.strftime('%Y-%m-%d %H:%M:%S')
 
 # Pushes data to logging DB.
 while True:
     conn = pyodbc.connect('Driver={SQL Server};'
-                          'Server=MSI;'     # Name of your SQL Server.
-                          #'UID=XXXXXXX;'
-                          #'PWD=XXXXXXX;'
+                          'Server=10.20.150.205;'     # Name of your SQL Server.
+                          'UID=logadmin;'
+                          'PWD=abc123;'
                           'Database=logs;'  # Name of DB in server.
-                          'Trusted_Connection=yes;')    # Only used for Windows Auth. for other, use uid/pwd.
+                          'Trusted_Connection=no;')    # Only used for Windows Auth. for other, use uid/pwd.
 
     cursor = conn.cursor()
-    cursor.execute('INSERT INTO Devices VALUES (?, ?, ?, ?)', (readableFingerprint, gma(), serialNo, datetime.datetime.now()))
+    cursor.execute('INSERT INTO Devices VALUES (?, ?, ?, ?)', (readableFingerprint, gma(), serialNo, formatted_date))
     conn.commit()
-    cursor.execute("SELECT DISTINCT * FROM Devices FOR JSON AUTO")      # Selects unique values.
+
+    # Selects unique values.
+    cursor.execute("SELECT [fingerprint],[macAddress],[serialNum],MAX([timeLastSeen]) as timeLastSeen "
+                   "FROM [logs].[dbo].[Devices] GROUP BY [fingerprint], [macAddress], [serialNum]FOR JSON AUTO")
 
     # Outputs JSON object.
     for row in cursor:
