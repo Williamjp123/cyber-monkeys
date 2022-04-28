@@ -56,8 +56,14 @@ print(readableFingerprint)
 now = datetime.datetime.now()
 formatted_date = now.strftime('%Y-%m-%d %H:%M:%S')
 
-# Pushes data to logging DB.
+# Increments every 60 seconds.
 while True:
+
+    # Creates date & time for log entry.
+    now = datetime.datetime.now()
+    formatted_date = now.strftime('%Y-%m-%d %H:%M:%S')
+
+    # Pushes data to logging DB.
     conn = pyodbc.connect('Driver={SQL Server};'
                           'Server=10.20.150.205;'     # Name of your SQL Server.
                           'UID=logadmin;'
@@ -77,7 +83,7 @@ while True:
     for row in cursor:
         print(row)
 
-        data_folder = Path("D:/Documents/CM_UI/src/assets/")
+        data_folder = Path("C:/Users/peter/Desktop/CM_UI/src/assets")
         f = open(data_folder / "devices.json", "w")
         f.write(row[0])
         f.close()
