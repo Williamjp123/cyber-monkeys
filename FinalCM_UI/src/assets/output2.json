@@ -1,0 +1,152 @@
+[
+  {
+    "_index": "packets-2022-04-28",
+    "_type": "doc",
+    "_score": null,
+    "_source": {
+      "layers": {
+        "eth_src": [
+          "10:f0:05:9a:28:e2"
+        ],
+        "frame_time": [
+          "Apr 28, 2022 14:07:58_015611000 Central Daylight Time"
+        ]
+      }
+    }
+  },
+  {
+    "_index": "packets-2022-04-28",
+    "_type": "doc",
+    "_score": null,
+    "_source": {
+      "layers": {
+        "eth_src": [
+          "10:f0:05:9a:28:e2"
+        ],
+        "frame_time": [
+          "Apr 28, 2022 14:07:58_030581000 Central Daylight Time"
+        ]
+      }
+    }
+  },
+  {
+    "_index": "packets-2022-04-28",
+    "_type": "doc",
+    "_score": null,
+    "_source": {
+      "layers": {
+        "eth_src": [
+          "f0:f7:55:ed:c2:bf"
+        ],
+        "frame_time": [
+          "Apr 28, 2022 14:07:58_034716000 Central Daylight Time"
+        ]
+      }
+    }
+  },
+  {
+    "_index": "packets-2022-04-28",
+    "_type": "doc",
+    "_score": null,
+    "_source": {
+      "layers": {
+        "eth_src": [
+          "f0:f7:55:ed:c2:bf"
+        ],
+        "frame_time": [
+          "Apr 28, 2022 14:07:58_035567000 Central Daylight Time"
+        ]
+      }
+    }
+  },
+  {
+    "_index": "packets-2022-04-28",
+    "_type": "doc",
+    "_score": null,
+    "_source": {
+      "layers": {
+        "eth_src": [
+          "10:f0:05:9a:28:e2"
+        ],
+        "frame_time": [
+          "Apr 28, 2022 14:07:58_035854000 Central Daylight Time"
+        ]
+      }
+    }
+  },
+  {
+    "_index": "packets-2022-04-28",
+    "_type": "doc",
+    "_score": null,
+    "_source": {
+      "layers": {
+        "eth_src": [
+          "f0:f7:55:ed:c2:bf"
+        ],
+        "frame_time": [
+          "Apr 28, 2022 14:07:58_047151000 Central Daylight Time"
+        ]
+      }
+    }
+  },
+  {
+    "_index": "packets-2022-04-28",
+    "_type": "doc",
+    "_score": null,
+    "_source": {
+      "layers": {
+        "eth_src": [
+          "f0:f7:55:ed:c2:bf"
+        ],
+        "frame_time": [
+          "Apr 28, 2022 14:07:58_067660000 Central Daylight Time"
+        ]
+      }
+    }
+  },
+  {
+    "_index": "packets-2022-04-28",
+    "_type": "doc",
+    "_score": null,
+    "_source": {
+      "layers": {
+        "eth_src": [
+          "f0:f7:55:ed:c2:bf"
+        ],
+        "frame_time": [
+          "Apr 28, 2022 14:07:58_070327000 Central Daylight Time"
+        ]
+      }
+    }
+  },
+  {
+    "_index": "packets-2022-04-28",
+    "_type": "doc",
+    "_score": null,
+    "_source": {
+      "layers": {
+        "eth_src": [
+          "f0:f7:55:ed:c2:bf"
+        ],
+        "frame_time": [
+          "Apr 28, 2022 14:07:58_070327000 Central Daylight Time"
+        ]
+      }
+    }
+  },
+  {
+    "_index": "packets-2022-04-28",
+    "_type": "doc",
+    "_score": null,
+    "_source": {
+      "layers": {
+        "eth_src": [
+          "10:f0:05:9a:28:e2"
+        ],
+        "frame_time": [
+          "Apr 28, 2022 14:07:58_077461000 Central Daylight Time"
+        ]
+      }
+    }
+  }
+]
